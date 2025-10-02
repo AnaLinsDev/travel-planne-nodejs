@@ -9,6 +9,10 @@ import { confirmParticipant } from "./routes/confirm-participant";
 import { confirmTrip } from "./routes/confirm-trip";
 import { createTrip } from "./routes/create-trip";
 import { listParticipants } from "./routes/list-participants";
+import { createActivity } from "./routes/create-activity";
+import { getActivity } from "./routes/get-activity";
+import { createLink } from "./routes/create-link";
+import { getLink } from "./routes/get-links";
 
 
 const app = fastify();
@@ -22,10 +26,22 @@ app.register(cors, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+//Trip
 app.register(createTrip);
 app.register(confirmTrip);
+
+//Participants
 app.register(confirmParticipant);
 app.register(listParticipants);
+
+//Activity
+app.register(createActivity);
+app.register(getActivity)
+
+//Links
+app.register(createLink)
+app.register(getLink)
+
 
 app.listen({ port: 3000 }).then(() => {
   console.log("SERVER RUNNING");

@@ -11,7 +11,7 @@ import { dayjs } from "../lib/dayjs";
 
 export async function createTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/create",
+    "/trips",
     {
       schema: {
         body: z.object({
