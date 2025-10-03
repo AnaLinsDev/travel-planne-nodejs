@@ -3,9 +3,9 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 
-export async function getLink(app: FastifyInstance) {
+export async function getParticipants(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    "/trips/:tripId/links",
+    "/trips/:tripId/participants",
     {
       schema: {
         params: z.object({
@@ -19,9 +19,15 @@ export async function getLink(app: FastifyInstance) {
       const trip = await prisma.trip.findUnique({
         where: { id: tripId },
         include: {
-          links: {
+          participants: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              is_confirmed: true,
+            },
             orderBy: {
-              title: "asc",
+              name: "asc",
             },
           },
         },
@@ -31,7 +37,7 @@ export async function getLink(app: FastifyInstance) {
         throw new Error("Trip not found.");
       }
 
-      return { links: trip.links };
+      return { participants: trip.participants };
     }
   );
 }
